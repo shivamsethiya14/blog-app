@@ -14,8 +14,40 @@
       <p><%= blog.body %></p>
     </div>
     <div class="container mt-4">
-      <img src="<%= blog.createdBy.profileImage %>" width="100px" alt="" />
+      <img src="<%= blog.createdBy.profileImage %>" width="50px" alt="" />
       <%= blog.createdBy.fullName %>
+    </div>
+    <div class="container mt-4">
+      <h1>comment(<%= comment.length %>)</h1>
+     <% if (locals.user) { %>
+      <form action="/blog/comment/<%= blog._id %>" method="POST">
+        <div class="mb-3">
+         
+          <input
+            type="text"
+            class="form-control"
+            id="content"
+            name="content"
+            aria-describedby="content"
+            placeholder="enter the comment" />
+            <button class="btn btn-primary mt-4" type="submit">add</button>
+            
+      </form>
+      
+     <% } %>
+     <div class="mt-3">
+      <% comment.forEach(comment => { %>
+        <div class="container mt-4">
+          <img src="<%= comment.createdBy.profileImage %>" width="50px" alt="" />
+          <%= comment.createdBy.fullName %>:
+         <pre>  <%= comment.content %></pre>
+         
+         
+         
+       
+        </div>
+      <% }) %>
+    </div>
     </div>
     <%- include("./partial/script") %>
   </body>

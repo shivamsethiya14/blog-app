@@ -17,7 +17,7 @@ const userSchema= new Schema({
     },
     profileImage:{
         type:String,
-        default:"/Image/defaultImage.jpeg"
+        default:"/Images/defaultImage.jpeg"
     },
     password:{
         type:String,

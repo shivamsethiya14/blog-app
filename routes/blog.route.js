@@ -3,6 +3,7 @@ import express from "express"
 import multer from "multer";
 import path from "path"
 import { Blog } from "../model/blog.model.js";
+import { Comment } from "../model/comment.model.js";
 const app=express()
 const router=Router();
 app.use(express.static(path.resolve('./public')))
@@ -38,10 +39,21 @@ router.post("/",upload.single("coverImageurl"),async(req,res)=>{
 })
 router.get('/:id',async(req,res)=>{
 const blog=await Blog.findById(req.params.id).populate("createdBy")
-console.log();
+const  comment =await Comment.find({blogId:req.params.id}).populate("createdBy")
+console.log(comment);
 return res.render('blog',{
   user :req.user,
-  blog  :blog
+  blog  :blog,
+  comment
 })
 })
+router.post("/comment/:blogId",async(req,res)=>{
+ const comments=await Comment.create({
+    content :req.body.content,
+    blogId:req.params.blogId,
+    createdBy:req.user._id
+ })
+ return res.redirect(`/blog/${req.params.blogId}`)
+})
+router.use(express.static(path.resolve('./public')))
 export  {router}
